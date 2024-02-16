@@ -1,0 +1,77 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/product.css">
+</head>
+
+<body>
+   <%- include('../includes/navigation.ejs') %>
+
+    <main>
+        
+  
+        <form class="product-form" action="/admin/add-product/?_csrf=<%=csrfToken%>" method="POST" enctype="multipart/form-data">
+        <!-- <form class="product-form" action="/admin/add-product/?_csrf=<%=csrfToken%>" method="POST" enctype="multipart/form-data"> -->
+            <div class="form-control">
+                <label for="title">Title</label>
+                <input 
+                    class=""
+                    type="text" 
+                    name="title" 
+                    id="title" 
+                    value="">
+            </div>
+            <% for(error of errors){  %>
+                <% if(error.name === 'title') {%> 
+                    <small style="color: red;"><%= error.message %></small>    
+                <%} %>
+            <%} %>
+            <div class="form-control">
+                <label for="image">Image URL</label>
+                <input 
+                    class=""
+                    type="file" 
+                    name="image" 
+                    id="image" 
+                    value="">
+            </div>
+         
+            <% for(error of errors){  %>
+            <% if(error.name === 'file') {%> 
+                <small style="color: red;"><%= error.message %></small>    
+            <%} %>
+            <%} %>
+            <% if (multerError) { %> 
+                <small style="color: red;"><%= multerError %></small>    
+            <% } %>
+            <div class="form-control">
+                <label for="price">Price</label>
+                <input 
+                    class=""
+                    type="number" 
+                    name="price" 
+                    id="price" 
+                    step="0.01" 
+                    value="">
+            </div>
+            <% for(error of errors){  %>
+                <% if(error.name === 'price') {%> 
+                    <small style="color: red;"><%= error.message %></small>    
+                <%} %>
+            <%} %>
+            <div class="form-control">
+                <label for="description">Description</label>
+                <textarea 
+                    class=""
+                    name="description" 
+                    id="description" 
+                    rows="5"></textarea>
+            </div>
+            <% for(error of errors){  %>
+                <% if(error.name === 'description') {%> 
+                    <small style="color: red;"><%= error.message %></small>    
+                <%} %>
+            <%} %>
+            <button class="btn" type="submit"><% if (editing) { %>Update Product<% } else { %>Add Product<% } %></button>
+        </form>
+    </main>
+<%- include('../includes/end.ejs') %>

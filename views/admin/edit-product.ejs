@@ -1,0 +1,58 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/product.css">
+</head>
+
+<body>
+   <%- include('../includes/navigation.ejs') %>
+
+    <main>
+ 
+        <form class="product-form" action="/admin/<% if (editing) { %>edit-product?_csrf=<%=csrfToken%><% } else { %>add-product<% } %>" method="POST" enctype="multipart/form-data">
+            <div class="form-control">
+                <label for="title">Title</label>
+                <input 
+                    class=""
+                    type="text" 
+                    name="title" 
+                    id="title" 
+                    value="<% if (editing || hasError) { %><%= product.title %><% } %>">
+            </div>
+            <div class="form-control">
+                Exiting Image : 
+                <img src="/<%= product.image %>" alt="" width="100" height="100">
+                <label for="imageUrl">Image URL</label>
+                <input 
+                    class=""
+                    type="file" 
+                    name="image" 
+                    id="imageUrl" 
+                  />
+            </div>
+            <div class="form-control">
+                <label for="price">Price</label>
+                <input 
+                    class=""
+                    type="number" 
+                    name="price" 
+                    id="price" 
+                    step="0.01" 
+                    value="<% if (editing || hasError) { %><%= product.price %><% } %>">
+            </div>
+            <div class="form-control">
+                <label for="description">Description</label>
+                <textarea 
+                    class=""
+                    name="description" 
+                    id="description" 
+                    rows="5"><% if (editing || hasError) { %><%= product.description %><% } %></textarea>
+            </div>
+            <% if (editing) { %>
+                <input type="hidden" value="<%= product._id %>" name="productId">
+            <% } %>
+
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button class="btn" type="submit"><% if (editing) { %>Update Product<% } else { %>Add Product<% } %></button>
+        </form>
+    </main>
+<%- include('../includes/end.ejs') %>
